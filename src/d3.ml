@@ -1,4 +1,3 @@
-
 (*
 js_of_ocaml bindings for the d3 library
 Copyright (C) 2011 Raphaël Proust
@@ -19,12 +18,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 *)
 
 
-class type selection =
+class type with_select =
 object
 
   method select :
     Js.js_string Js.t
     -> selection Js.t Js.meth
+
   method select_node :
     Dom.element Js.t
     -> selection Js.t Js.meth
@@ -32,109 +32,84 @@ object
   method selectAll :
     Js.js_string Js.t
     -> selection Js.t Js.meth
+
   method selectAll_nodes :
     Dom.element Js.t Js.js_array Js.t
     -> selection Js.t Js.meth
 
+end
 
-(* TODO: find doc (read source?) and complete
-  method filter
-  method classed
-  method insert
-  method sort
-*)
+and selection =
+object
 
-  method enter : selection Js.t Js.meth
 
-  (*use this data*)
+  (**SELECTION**)
+  inherit with_select
+
+  (**DATA**)
+
   method data :
     'a Js.js_array Js.t
     -> selection Js.t Js.meth
 
-  (*true if the selection is empty*)
-  method empty :
-    bool Js.t Js.meth
+  (**CHAIN**)
 
-  (*return the first node of the selection
-   *behavior is unspecified if the selection is empty
-   *)
-  method node :
-    Dom.node Js.t Js.meth
+  method enter : selection Js.t Js.meth
 
-  (*append the element associated to the argument to each element of the
-   *selection. If the argument is "p" it appends a paragraph.
-   *)
   method append :
     Js.js_string Js.t
     -> selection Js.t Js.meth
 
-  (*TODO: find doc
-  method remove
-   *)
-
-  (*Call the parameter function on the whole selection presented as an array*)
   method call :
     (Dom.node Js.t Js.js_array Js.t -> unit) Js.callback
     -> selection Js.meth
 
-  (*Iterate the paramter function over the elements of the selection*)
   method each :
     ('data Js.t -> int -> unit) Js.callback
     -> selection Js.t Js.meth
 
-  (*set attribute for each element of the selection*)
   method attr :
-    Js.js_string Js.t -> Js.js_string Js.t -> selection Js.t Js.meth
-  method attr_get :
-    Js.js_string Js.t -> Js.js_string Js.t Js.meth
+    Js.js_string Js.t
+    -> Js.js_string Js.t
+    -> selection Js.t Js.meth
   method attr_remove :
-    Js.js_string Js.t -> 'a Js.opt -> selection Js.t Js.meth
+    Js.js_string Js.t
+    -> Js.js_string Js.t Js.opt
+    -> selection Js.t Js.meth
   method attr_dyn :
     Js.js_string Js.t
-    -> ('a -> int -> Js.js_string Js.t) Js.callback
+    -> ('data -> int -> Js.js_string Js.t) Js.callback
     -> selection Js.t Js.meth
 
-  (*set style attribute for each element of the selection*)
   method style :
     Js.js_string Js.t
     -> Js.js_string Js.t
     -> selection Js.t Js.meth
-  method style_get :
-    Js.js_string Js.t
-    -> Js.js_string Js.t Js.meth
   method style_remove :
     Js.js_string Js.t
-    -> 'a Js.opt
+    -> Js.js_string Js.t Js.opt
     -> selection Js.t Js.meth
   method style_dyn :
     Js.js_string Js.t
-    -> ('a -> int -> Js.js_string Js.t) Js.callback
+    -> ('data -> int -> Js.js_string Js.t) Js.callback
     -> selection Js.t Js.meth
-  (*TODO: priority*)
 
-  (*set property for each element of the selection*)
   method property :
     Js.js_string Js.t
     -> Js.js_string Js.t
     -> selection Js.t Js.meth
-  method property_get :
-    Js.js_string Js.t
-    -> Js.js_string Js.t Js.meth
   method property_remove :
     Js.js_string Js.t
-    -> 'a Js.opt
+    -> Js.js_string Js.t Js.opt
     -> selection Js.t Js.meth
   method property_dyn :
     Js.js_string Js.t
     -> ('a -> int -> Js.js_string Js.t) Js.callback
     -> selection Js.t Js.meth
 
-  (*set the content of all the selected nodes*)
   method text        :
     Js.js_string Js.t
     -> selection Js.t Js.meth
-  method text_get    :
-    Js.js_string Js.t Js.meth
   method text_remove :
     'a Js.opt
     -> selection Js.t Js.meth
@@ -144,8 +119,6 @@ object
   method html        :
     Js.js_string Js.t
     -> selection Js.t Js.meth
-  method html_get    :
-    Js.js_string Js.t Js.meth
   method html_remove :
     'a Js.opt
     -> selection Js.t Js.meth
@@ -153,12 +126,46 @@ object
     (Dom.node Js.t -> Js.js_string Js.t) Js.callback
     -> selection Js.t Js.meth
 
-  (*events*)
   method on : (#Dom_html.event as 'a) Js.t
     -> (Dom_html.eventTarget, 'a) Dom_html.event_listener Js.t
     -> selection Js.t
 
-    (*TODO idem
+
+    (**UNDOCUMMENTED**)
+
+(* TODO: find doc (read source?) and complete
+  method filter
+  method classed
+  method insert
+  method sort
+  method remove
+*)
+
+  (**OTHER**)
+
+  method empty :
+    bool Js.t Js.meth
+
+  method node :
+    Dom.node Js.t Js.meth
+
+  method attr_get :
+    Js.js_string Js.t -> Js.js_string Js.t Js.meth
+
+  method style_get :
+    Js.js_string Js.t Js.meth
+  (*TODO: priority*)
+
+  method property_get :
+    Js.js_string Js.t
+    -> Js.js_string Js.t Js.meth
+
+  method text_get    :
+    Js.js_string Js.t Js.meth
+  method html_get    :
+    Js.js_string Js.t Js.meth
+
+  (*TODO idem
   method transition
   *)
 
@@ -172,20 +179,7 @@ end
 class type d3 =
 object
 
-  method select :
-    Js.js_string Js.t
-    -> selection Js.t Js.meth
-  method select_node :
-    Dom.element Js.t
-    -> selection Js.t Js.meth
-
-  method selectAll :
-    Js.js_string Js.t
-    -> selection Js.t Js.meth
-  method selectAll_nodes :
-    Dom.element Js.t Js.js_array Js.t
-    -> selection Js.t Js.meth
-
+  inherit with_select
 (*   method transition : transition Js.t Js.meth *)
 
 end
