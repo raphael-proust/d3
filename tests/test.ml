@@ -4,14 +4,14 @@
 http://mbostock.github.com/d3/tutorial/bar-1.html
 *)
 
+let data = Js.array [|4; 8; 15; 16; 23; 42|]
+
 let chart =
   D3.d3
     ##select(Js.string "body")
     ##append(Js.string "div")
     ##attr(Js.string "class", Js.string "chart")
 
-let data =
-  Js.array [|10; 3; 42; 100; 1|]
 
 let _ =
   chart
