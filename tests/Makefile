@@ -7,7 +7,7 @@ include ../Makefile.common
 MLS=test.ml
 BYTES=$(MLS:ml=byte)
 TARGETS=$(MLS:ml=js)
-LIB=../src/d3.cmo
+LIB=../src/d3.cmo ../src/d3m.cmo
 
 
 ####

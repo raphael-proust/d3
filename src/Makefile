@@ -4,7 +4,7 @@ include ../Makefile.common
 ####
 
 
-MLS=d3.ml
+MLS=d3.ml d3m.ml
 MLIS=$(MLS:ml=mli)
 CMIS=$(MLS:ml=cmi)
 CMOS=$(MLS:ml=cmo)
