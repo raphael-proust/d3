@@ -36,7 +36,7 @@ object
 
   (**Selects the given node. Usefull for converting nodes to selections.*)
   method select_node :
-    Dom.element Js.t
+    Dom.node Js.t
     -> selection Js.t Js.meth
 
   (**Selects all the nodes associated to the given string (either class or tag).
@@ -48,7 +48,7 @@ object
   (**Selects all nodes in the given array. This is usefull to convert node
    arrays into selections.*)
   method selectAll_nodes :
-    Dom.element Js.t Js.js_array Js.t
+    Dom.node Js.t Js.js_array Js.t
     -> selection Js.t Js.meth
 
 end
