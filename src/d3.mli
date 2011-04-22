@@ -79,7 +79,7 @@ object
 
   (**The next set of method allow for method chaining*)
 
-  (**TODO: undocummented in the d3 library. Qxxording to comments found in the
+  (**TODO: undocummented in the d3 library. According to comments found in the
     examples, the enter method populates the selection with placeholder nodes,
     one for each data associated to the selection. For example (ommiting the JS
     conversion function for clarity), one may use
