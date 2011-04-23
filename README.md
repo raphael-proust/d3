@@ -9,7 +9,8 @@ the d3 project. This binding doesn't include d3's code in anyway.
 
 ##Usage
 
-Not available yet
+To compile, you need the `js_of_ocaml` compiler available at ocsigen.org and
+`make`.
 
 ##Licence
 
