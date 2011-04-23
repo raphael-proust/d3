@@ -29,6 +29,7 @@ type 'a chain = ('a, 'a) binder
 
 (*selection -> chain -> selection*)
 let (>>) (s : D3.selection Js.t) c = c s
+let d3 = D3.d3
 
 
 type ('data, 'value) setter =
@@ -37,11 +38,11 @@ type ('data, 'value) setter =
   | Dynamic of ('data -> int -> 'value)
 
 
-let select tag          = D3.d3##select(Js.string tag)
-let selection_of_node n = D3.d3##select_node(n)
+let select tag          = d3##select(Js.string tag)
+let selection_of_node n = d3##select_node(n)
 
-let select_all tag        = D3.d3##selectAll(Js.string tag)
-let selection_of_nodes ns = D3.d3##selectAll_nodes(Js.array ns)
+let select_all tag        = d3##selectAll(Js.string tag)
+let selection_of_nodes ns = d3##selectAll_nodes(Js.array ns)
 
 
 (*string -> chain*)
@@ -101,6 +102,20 @@ let text_cst v (s: D3.selection Js.t) =
 let text_rm (s: D3.selection Js.t) =
   s##text_remove(Js.null)
 
+
+module Interval =
+struct
+
+  type 'a t = float -> 'a
+
+  let obj    x y = d3##interpolateObject(x, y)
+  let string x y = d3##interpolateString(Js.string x, Js.string y)
+  let js_string x y = d3##interpolateString(x, y)
+  let int    x y = d3##interpolateRound(x, y)
+  let float  x y = d3##interpolateNumber_float(x, y)
+  (*TODO: colors (when available in js_of_ocaml)*)
+
+end
 
 
 
