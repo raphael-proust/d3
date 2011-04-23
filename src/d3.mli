@@ -277,6 +277,54 @@ object
 
 (*   method transition : transition Js.t Js.meth *)
 
+  (*Interpolation*)
+  method interpolateNumber :
+    int
+    -> int
+    -> (float -> float) Js.meth
+  method interpolateNumber_float :
+    float
+    -> float
+    -> (float -> float) Js.meth
+  method interpolateRound :
+    int
+    -> int
+    -> (float -> int) Js.meth
+  method interpolateRound_float :
+    float
+    -> float
+    -> (float -> int) Js.meth
+
+  method interpolateRgb :
+    Js.js_string Js.t
+    -> Js.js_string Js.t
+    -> (float -> Js.js_string Js.t) Js.meth
+  method interpolateHsl :
+    Js.js_string Js.t
+    -> Js.js_string Js.t
+    -> (float -> Js.js_string Js.t) Js.meth
+
+  method interpolateString :
+    Js.js_string Js.t
+    -> Js.js_string Js.t
+    -> (float -> Js.js_string Js.t) Js.meth
+
+  method interpolateArray :
+    'a Js.js_array Js.t
+    -> 'a Js.js_array Js.t
+    -> (float -> Js.js_string Js.t) Js.meth
+
+  method interpolateObject :
+    'a Js.t
+    -> 'a Js.t
+    -> (float -> 'a Js.t) Js.meth
+
+  method interpolate :
+    'a
+    -> 'a
+    -> (float -> 'a) Js.meth
+
+
 end
 
 
