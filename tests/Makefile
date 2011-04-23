@@ -4,7 +4,7 @@ include ../Makefile.common
 ####
 
 
-MLS=test.ml
+MLS=barchart_lowlevel.ml barchart.ml interpolation.ml
 BYTES=$(MLS:ml=byte)
 TARGETS=$(MLS:ml=js)
 LIB=../src/d3.cmo ../src/d3m.cmo
