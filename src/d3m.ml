@@ -108,11 +108,11 @@ struct
 
   type 'a t = float -> 'a
 
-  let obj    x y = d3##interpolateObject(x, y)
-  let string x y = d3##interpolateString(Js.string x, Js.string y)
+  let obj       x y = d3##interpolateObject(x, y)
+  let string    x y = d3##interpolateString(Js.string x, Js.string y)
   let js_string x y = d3##interpolateString(x, y)
-  let int    x y = d3##interpolateRound(x, y)
-  let float  x y = d3##interpolateNumber_float(x, y)
+  let int       x y = d3##interpolateRound(x, y)
+  let float     x y = d3##interpolateNumber_float(x, y)
   (*TODO: colors (when available in js_of_ocaml)*)
 
 end
