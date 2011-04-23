@@ -14,12 +14,18 @@ let chart =
     ##append(Js.string "div")
     ##attr(Js.string "class", Js.string "chart")
 
+let x =
+  D3.d3
+    ##scale
+    ##linear()
+    ##domain(Js.array [|0; 42|])
+    ##range(Js.array [|Js.string "0px"; Js.string "420px"|])
+
 let _ =
   chart
     ##selectAll(Js.string "div")
     ##data(Js.array data)
     ##enter()##append(Js.string "div")
-    ##style_dyn(Js.string "width",
-      Js.wrap_callback (fun i _ -> Js.string (string_of_int (10 * i) ^ "px")))
-    ##text_dyn(Js.wrap_callback (fun i _ -> Js.string (string_of_int i)))
+    ##style_dyn(Js.string "width", D3.Scale.to_fun x)
+    ##text_dyn(Js.wrap_callback (fun v _ -> Js.string (string_of_int v)))
 

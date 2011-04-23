@@ -119,7 +119,8 @@ object
     -> selection Js.meth
 
   (**Make a function call on each associated datum of the selection. The given
-    function is called with a datum and its index.*)
+    function is called with a datum and its index.*) (*TODO: find a way not to
+    require the int argument.*)
   method each :
     ('data Js.t -> int -> unit) Js.callback
     -> selection Js.t Js.meth
@@ -201,7 +202,7 @@ object
     'a Js.opt
     -> selection Js.t Js.meth
   method html_dyn    :
-    (Dom.node Js.t -> Js.js_string Js.t) Js.callback
+    ('a -> int -> Js.js_string Js.t) Js.callback
     -> selection Js.t Js.meth
 
   (**Set an event handler on each node in the selection. The first argument is
@@ -268,11 +269,43 @@ class type transition =
 object
 end
 
+module Scale =
+  struct
+
+    class type ['domain, 'range] t =
+      object ('self)
+
+        method domain : 'domain Js.js_array Js.t -> 'self Js.t Js.meth
+        method range  : 'range Js.js_array Js.t -> 'self Js.t Js.meth
+
+        method clamp  : bool Js.t           -> 'self Js.t Js.meth
+
+        method invert : ('range -> 'domain) Js.meth
+        method interpolate : ('domain -> 'range) Js.meth
+
+      end
+
+    class type scale =
+      object
+        method linear : ('a, 'b) t Js.t Js.meth
+        (*TODO: other scales*)
+      end
+
+    let to_fun :
+      ('dom, 'range) t Js.t
+      -> ('dom -> int -> 'range) Js.callback
+      = Obj.magic
+
+  end
+
+
 class type d3 =
 object
 
   (**Do selection on the whole page.*)
   inherit with_select
+
+(*TODO: max and other helper functions. *)
 
 (*   method transition : transition Js.t Js.meth *)
 
@@ -323,11 +356,12 @@ object
     -> 'a
     -> (float -> 'a) Js.meth
 
+  (**Scales*)
+  method scale : Scale.scale Js.t Js.readonly_prop
+
 
 end
 
 
-
 let d3 : d3 Js.t = Js.Unsafe.variable "d3"
-
 

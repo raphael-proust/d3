@@ -43,7 +43,7 @@ type ('a, 'value) setter =
   | Remove
   (**Set the property, content, whatever to the given value.*)
   | Constant of 'value
-  (**For each element in the selection, use associated data and index to
+  (**For each element in the selection, use associated data to
     evaluates the new value for the text content, attribute, whatever.*)
   | Dynamic of ('a -> int -> 'value)
 
