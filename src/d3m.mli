@@ -89,3 +89,17 @@ val text_rm  : 'a chain
 val text_cst : string -> 'b chain
 val text     : ('a -> int -> string) -> 'a chain
 
+
+module Interval :
+sig
+
+  type 'a t = float -> 'a
+
+  val obj       : 'a Js.t           -> 'a Js.t           -> 'a Js.t t
+  val string    : string            -> string            -> Js.js_string Js.t t
+  val js_string : Js.js_string Js.t -> Js.js_string Js.t -> Js.js_string Js.t t
+  val int       : int               -> int               -> int t
+  val float     : float             -> float             -> float t
+
+end
+
