@@ -272,28 +272,85 @@ end
 module Scale =
   struct
 
+    (**Generic scale.*)
     class type ['domain, 'range] t =
       object ('self)
 
+        (**Set the/get domain.*)
         method domain : 'domain Js.js_array Js.t -> 'self Js.t Js.meth
+        method domain_get : 'domain Js.js_array Js.t Js.readonly_prop
+
+        (**Set/get the range.*)
         method range  : 'range Js.js_array Js.t -> 'self Js.t Js.meth
-
-        method clamp  : bool Js.t           -> 'self Js.t Js.meth
-
-        method invert : ('range -> 'domain) Js.meth
-        method interpolate : ('domain -> 'range) Js.meth
+        method range_get : 'range Js.js_array Js.t Js.readonly_prop
 
       end
+
+
+    (**A scale related to numerical computations. Domains should be specified as
+       intervals with lower and upper bounds in the argument array.*)
+    class type ['domain, 'range] numerical_t =
+      object ('self)
+
+        inherit ['domain, 'range] t
+
+        (**Set/get the clamping property. If set to [true], application of the
+           [call] method with parameter [d] will ``clamp'' [d] to the actual
+           domain rather than extrapolate.*)
+        method clamp     : bool Js.t -> 'self Js.t Js.meth
+        method clamp_get : bool Js.t Js.readonly_prop
+
+        (**Invert allows one to access the invert function. It takes a element
+           from the range and returns the associated element from the domain. *)
+        method invert : ('range -> 'domain) Js.meth
+        (*TODO? set to ('range -> 'domain) Js.readonly_prop*)
+
+        method rangeRound : ('range -> 'domain) Js.meth
+
+      end
+
+    class type ['range] float_t =
+      object ('self)
+        inherit [float, 'range] numerical_t
+      end
+
+    class type ['range] int_t =
+      object ('self)
+        inherit [int, 'range] numerical_t
+      end
+
+    class type ['range] exponent_t =
+      object ('self)
+        inherit [float, 'range] numerical_t
+        method exponent : float -> 'self Js.t Js.meth
+      end
+
+
+    class type ['domain, 'range] ordinal_t =
+      object ('self)
+        inherit ['domain, 'range] t
+        (*TODO:other methods*)
+      end
+
 
     class type scale =
       object
-        method linear : ('a, 'b) t Js.t Js.meth
-        (*TODO: other scales*)
+        method linear     : 'a float_t Js.t Js.meth
+        method linear_int : 'a int_t   Js.t Js.meth
+        method pow        : 'a exponent_t Js.t Js.meth
+        method sqrt       : 'a exponent_t Js.t Js.meth
+        method log        : 'a exponent_t Js.t Js.meth
+
+        method ordinal : ('a,'b) ordinal_t Js.t Js.meth
+
+        method quantize : (int, 'a) t Js.t Js.meth
+
+        (*TODO: quantile*)
       end
 
     let to_fun :
-      ('dom, 'range) t Js.t
-      -> ('dom -> int -> 'range) Js.callback
+      ('a, 'b) #t Js.t
+      -> ('a -> int -> 'b) Js.callback
       = Obj.magic
 
   end
@@ -328,13 +385,13 @@ object
     -> (float -> int) Js.meth
 
   method interpolateRgb :
-    Js.js_string Js.t
-    -> Js.js_string Js.t
-    -> (float -> Js.js_string Js.t) Js.meth
+    CSS.js_color
+    -> CSS.js_color
+    -> (float -> CSS.js_color) Js.meth
   method interpolateHsl :
-    Js.js_string Js.t
-    -> Js.js_string Js.t
-    -> (float -> Js.js_string Js.t) Js.meth
+    CSS.js_color
+    -> CSS.js_color
+    -> (float -> CSS.js_color) Js.meth
 
   method interpolateString :
     Js.js_string Js.t

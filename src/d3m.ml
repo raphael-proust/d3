@@ -113,10 +113,111 @@ struct
   let js_string x y = d3##interpolateString(x, y)
   let int       x y = d3##interpolateRound(x, y)
   let float     x y = d3##interpolateNumber_float(x, y)
-  (*TODO: colors (when available in js_of_ocaml)*)
+
+  let color     x y =
+    let open CSS in
+    match (x, y) with
+
+    (*HSL*)
+    | (HSL _, HSL _)   ->
+        (d3##interpolateHsl(color x, color y) :> float -> Js.js_string Js.t)
+    | (HSLA _, HSLA _) ->
+        let x = (color x :> Js.js_string Js.t)
+        and y = (color y :> Js.js_string Js.t)
+        in
+        d3##interpolateString(x, y)
+
+    (*HSL can't be mixed with anything else*)
+    | (HSL _, _) | (_, HSL _) ->
+        failwith "D3m.color argument error"
+
+    (*RGB*)
+    | (RGB _, RGB _)   ->
+        (d3##interpolateRgb(color x, color y) :> float -> Js.js_string Js.t)
+    | (RGBA _, RGBA _) ->
+        let x = (color x :> Js.js_string Js.t)
+        and y = (color y :> Js.js_string Js.t)
+        in
+        d3##interpolateString(x, y)
+
+    (*Alpha can't be mixed with non-alpha*)
+    | (RGBA _, _) | (_, RGBA _) | (HSLA _, _) | (_, HSLA _) ->
+        failwith "D3m.color argument error"
+
+    (*All that is left is RGB and named colors (that can be mixed).*)
+    | _ ->
+        (d3##interpolateRgb(color x, color y) :> float -> Js.js_string Js.t)
 
 end
 
+module Scale =
+struct
 
+  type ('a, 'b) t = ('a -> int -> 'b) Js.callback
 
+  let linear ?(clamp = false) ~x0 ~x1 ~y0 ~y1 () =
+    let f =
+      d3
+        ##scale
+        ##linear()
+        ##domain(Js.array [|x0; x1|])
+        ##range(Js.array [|y0; y1|])
+        ##clamp(Js.bool clamp)
+    in
+    D3.Scale.to_fun f
+  let linear_int ?(clamp = false) ~x0 ~x1 ~y0 ~y1 () =
+    let f =
+      d3
+        ##scale
+        ##linear_int()
+        ##domain(Js.array [|x0; x1|])
+        ##range(Js.array [|y0; y1|])
+        ##clamp(Js.bool clamp)
+    in
+    D3.Scale.to_fun f
+
+  let power ?(clamp = false) ~x0 ~x1 ~y0 ~y1 ~e () =
+    let f =
+      d3
+        ##scale
+        ##pow()
+        ##domain(Js.array [|x0; x1|])
+        ##range(Js.array [|y0; y1|])
+        ##exponent(e)
+        ##clamp(Js.bool clamp)
+    in
+    D3.Scale.to_fun f
+
+  let logarithmic ?(clamp = false) ~x0 ~x1 ~y0 ~y1 () =
+    let f =
+      d3
+        ##scale
+        ##log()
+        ##domain(Js.array [|x0; x1|])
+        ##range(Js.array [|y0; y1|])
+        ##clamp(Js.bool clamp)
+    in
+    D3.Scale.to_fun f
+
+  let discretize ~x0 ~x1 ~range () =
+    let f =
+      d3
+        ##scale
+        ##quantize()
+        ##domain(Js.array [|x0; x1|])
+        ##range(Js.array range)
+    in
+    D3.Scale.to_fun f
+
+  let biject ~domain ~range () =
+    let f =
+      d3
+        ##scale
+        ##ordinal()
+        ##domain(Js.array domain)
+        ##range(Js.array range)
+    in
+    D3.Scale.to_fun f
+
+end
 

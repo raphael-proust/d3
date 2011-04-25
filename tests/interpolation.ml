@@ -4,9 +4,9 @@
 open D3m
 
 let rainbow =
-  D3.d3##interpolateHsl(Js.string "hsl(0,80,50)", Js.string "hsl(359,80,50)")
+  Interval.color (CSS.HSL (0, 80, 50)) (CSS.HSL (359, 80, 50))
 
-let widths = Interval.string "50px" "70px"
+let widths = Interval.string "50px" "120px"
 
 let make size =
   Array.init size (fun i -> (float_of_int i) /. (float_of_int size))
