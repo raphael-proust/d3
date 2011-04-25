@@ -93,6 +93,7 @@ val text     : ('a -> int -> string) -> 'a chain
 module Interval :
 sig
 
+  (**The type of an ['a] interval: a function from [0. .. 1.] to ['a].*)
   type 'a t = float -> 'a
 
   val obj       : 'a Js.t           -> 'a Js.t           -> 'a Js.t t
@@ -101,5 +102,59 @@ sig
   val int       : int               -> int               -> int t
   val float     : float             -> float             -> float t
 
+  (**FIXME: [color] does not work when called with exactly one HSL based
+     value.. It does not work either when one of the two colors has an alpha
+     channel. *)
+  (*TODO: make return type CSS.js_color*)
+  val color     : CSS.color         -> CSS.color         -> Js.js_string Js.t t
+
 end
 
+module Scale :
+sig
+
+  (**The type of scales. The most common usage is *)
+  type ('a, 'b) t = ('a -> int -> 'b) Js.callback
+
+  val linear :
+    ?clamp:bool
+    -> x0:float -> x1:float
+    -> y0:'a -> y1:'a
+    -> unit
+    -> (float, 'a) t
+
+  val linear_int :
+    ?clamp:bool
+    -> x0:int -> x1:int
+    -> y0:'a -> y1:'a
+    -> unit
+    -> (int, 'a) t
+
+  val power :
+    ?clamp:bool
+    -> x0:float -> x1:float
+    -> y0:float -> y1:float
+    -> e:float
+    -> unit
+    -> (float, float) t
+
+  val logarithmic :
+    ?clamp:bool
+    -> x0:float -> x1:float
+    -> y0:float -> y1:float
+    -> unit
+    -> (float, float) t
+
+  val discretize :
+    x0:int -> x1:int
+    -> range:'a array
+    -> unit
+    -> (int, 'a) t
+
+  val biject :
+    domain:'a array
+    -> range:'b array
+    -> unit
+    -> ('a, 'b) t
+
+end

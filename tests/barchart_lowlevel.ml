@@ -18,7 +18,7 @@ let x =
   D3.d3
     ##scale
     ##linear()
-    ##domain(Js.array [|0; 42|])
+    ##domain(Js.array [|0.; 42.|])
     ##range(Js.array [|Js.string "0px"; Js.string "420px"|])
 
 let _ =

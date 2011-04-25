@@ -12,12 +12,15 @@ let chart =
     >> append "div"
     >> attr_cst "class" (Js.string "chart")
 
+let width_of_value v _ =
+  string_of_int (10 * v) ^ "px"
+
 let _ =
   chart
     >> subnodes "div"
     >> data mydata
     >> enter >> append "div"
-    >> style "width" (fun v _ -> Js.string (string_of_int (10 * v) ^ "px"))
+    >> style "width" width_of_value
     >> text (fun v _ -> string_of_int v)
 
 
