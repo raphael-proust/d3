@@ -20,7 +20,27 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   d3 library. It is not complete (yet). *)
 
 
-(*TODO: constants, inlining*)
+module Selector = struct
+
+  (*TODO: type tags and attributes*)
+
+  type t = Js.js_string Js.t
+
+  let from_string s = Js.string s
+
+  let tag s         = from_string s
+  let class_ c      = from_string ("." ^ c)
+  let identifier i  = from_string ("#" ^ i)
+  let attribute a v = from_string ("[" ^ a ^ " = " ^ v ^ "]")
+(*   let containment *)
+
+  (*TODO: check precedence, parentheses and all*)
+  let and_ s1 s2 = s1##concat(s2)
+  let or_  s1 s2 = s1##concat_2(Js.string ", ", s2)
+
+end
+
+
 
 (**The type of a selection with associated data of type ['data].*)
 type 'a t = D3.selection Js.t
@@ -38,10 +58,10 @@ type ('data, 'value) setter =
   | Dynamic of ('data -> int -> 'value)
 
 
-let select tag          = d3##select(Js.string tag)
+let select selector     = d3##select(selector)
 let selection_of_node n = d3##select_node(n)
 
-let select_all tag        = d3##selectAll(Js.string tag)
+let select_all selector   = d3##selectAll(selector)
 let selection_of_nodes ns = d3##selectAll_nodes(Js.array ns)
 
 
@@ -50,7 +70,7 @@ let subnodes tag (s : D3.selection Js.t) = s##selectAll(Js.string tag)
 
 let append tag (s : D3.selection Js.t) = s##append(Js.string tag)
 
-(*TODO: make type safe (dependent types!)*)
+(*TODO: make type safe (dependent types?)*)
 let data d (s : D3.selection Js.t) = s##data(Js.array d)
 
 let enter (s : D3.selection Js.t) = s##enter()

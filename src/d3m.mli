@@ -20,6 +20,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 (**This module provides a functional, type safe (when possible) interface to the
   d3 library. It is not complete (yet). *)
 
+module Selector : sig
+
+  type t
+
+  val from_string : string -> t
+
+  val tag        : string -> t
+  val class_     : string -> t
+  val identifier : string -> t
+  val attribute  : string -> string -> t
+
+  val and_ : t -> t -> t
+  val or_  : t -> t -> t
+
+end
+
 
 (**The type of a selection with bound data of type ['a].*)
 type 'a t
@@ -48,8 +64,8 @@ type ('a, 'value) setter =
   | Dynamic of ('a -> int -> 'value)
 
 
-val select     : string -> Js.Unsafe.any Js.opt t
-val select_all : string -> Js.Unsafe.any Js.opt t
+val select     : Selector.t -> Js.Unsafe.any Js.opt t
+val select_all : Selector.t -> Js.Unsafe.any Js.opt t
 
 val selection_of_node  : Dom.node Js.t       -> Js.Unsafe.any Js.opt t
 val selection_of_nodes : Dom.node Js.t array -> Js.Unsafe.any Js.opt t

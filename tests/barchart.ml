@@ -8,7 +8,7 @@ open D3m
 let mydata = [|4; 8; 15; 16; 23; 42|]
 
 let chart =
-  select "body"
+  select (Selector.tag "body")
     >> append "div"
     >> attr_cst "class" (Js.string "chart")
 

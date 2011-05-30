@@ -11,7 +11,7 @@ let widths = Interval.string "50px" "120px"
 let make size =
   Array.init size (fun i -> (float_of_int i) /. (float_of_int size))
 
-let chart = select "body" >> append "div"
+let chart = select (Selector.tag "body") >> append "div"
 
 let _ =
   chart
