@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
   d3 library. It is not complete (yet). *)
 
 
-<<<<<<< HEAD
 module Selector = struct
 
   (*TODO: type tags and attributes*)
@@ -42,9 +41,6 @@ module Selector = struct
 end
 
 
-=======
-(*TODO: constants, inlining*)
->>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
 (**The type of a selection with associated data of type ['data].*)
 type 'a t = D3.selection Js.t
@@ -56,7 +52,6 @@ let (>>) (s : D3.selection Js.t) c = c s
 let d3 = D3.d3
 
 
-<<<<<<< HEAD
 (*TODO: move to appropriate location*)
 let opt_of_option = function
   | Some x -> Js.some x
@@ -73,18 +68,6 @@ let select selector     = d3##select(selector)
 let selection_of_node n = d3##select_node(n)
 
 let select_all selector   = d3##selectAll(selector)
-=======
-type ('data, 'value) setter =
-  | Remove
-  | Constant of 'value
-  | Dynamic of ('data -> int -> 'value)
-
-
-let select tag          = d3##select(Js.string tag)
-let selection_of_node n = d3##select_node(n)
-
-let select_all tag        = d3##selectAll(Js.string tag)
->>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 let selection_of_nodes ns = d3##selectAll_nodes(Js.array ns)
 
 
@@ -93,18 +76,13 @@ let subnodes tag (s : D3.selection Js.t) = s##selectAll(Js.string tag)
 
 let append tag (s : D3.selection Js.t) = s##append(Js.string tag)
 
-<<<<<<< HEAD
 (*TODO: make type safe (dependent types?)*)
-=======
-(*TODO: make type safe (dependent types!)*)
->>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 let data d (s : D3.selection Js.t) = s##data(Js.array d)
 
 let enter (s : D3.selection Js.t) = s##enter()
 
 let set_attr name setter (s : D3.selection Js.t) =
   match setter with
-<<<<<<< HEAD
   | Remove     -> s##attr(Js.string name, Js.null)
   | Constant v -> s##attr(Js.string name, Js.some v)
   | Dynamic f  ->
@@ -124,25 +102,10 @@ let attr_cst name v (s: D3.selection Js.t) =
 
 let attr_rm name (s: D3.selection Js.t) =
   s##attr(Js.string name, Js.null)
-=======
-  | Remove     -> s##attr_remove(Js.string name, Js.null)
-  | Constant v -> s##attr(Js.string name, v)
-  | Dynamic f  -> s##attr_dyn(Js.string name, Js.wrap_callback f)
-
-let attr name f (s: D3.selection Js.t) =
-  s##attr_dyn(Js.string name, Js.wrap_callback f)
-
-let attr_cst name v (s: D3.selection Js.t) =
-  s##attr(Js.string name, v)
-
-let attr_rm name (s: D3.selection Js.t) =
-  s##attr_remove(Js.string name, Js.null)
->>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
 
 let set_style name setter (s : D3.selection Js.t) =
   match setter with
-<<<<<<< HEAD
   | Remove     -> s##style(Js.string name, Js.null)
   | Constant v -> s##style(Js.string name, Js.some v)
   | Dynamic f  ->
@@ -162,25 +125,10 @@ let style_cst name v (s: D3.selection Js.t) =
 
 let style_rm name (s: D3.selection Js.t) =
   s##style(Js.string name, Js.null)
-=======
-  | Remove     -> s##style_remove(Js.string name, Js.null)
-  | Constant v -> s##style(Js.string name, v)
-  | Dynamic f  -> s##style_dyn(Js.string name, Js.wrap_callback f)
-
-let style name f (s: D3.selection Js.t) =
-  s##style_dyn(Js.string name, Js.wrap_callback f)
-
-let style_cst name v (s: D3.selection Js.t) =
-  s##style(Js.string name, v)
-
-let style_rm name (s: D3.selection Js.t) =
-  s##style_remove(Js.string name, Js.null)
->>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
 
 let set_text setter (s : D3.selection Js.t) =
   match setter with
-<<<<<<< HEAD
   | Remove     -> s##text(Js.null)
   | Constant v -> s##text(Js.some (Js.string v))
   | Dynamic f  ->
@@ -204,20 +152,6 @@ let text_cst v (s: D3.selection Js.t) =
 
 let text_rm (s: D3.selection Js.t) =
   s##text(Js.null)
-=======
-  | Remove     -> s##text_remove(Js.null)
-  | Constant v -> s##text(Js.string v)
-  | Dynamic f  -> s##text_dyn(Js.wrap_callback (fun d i -> Js.string (f d i)))
-
-let text f (s: D3.selection Js.t) =
-  s##text_dyn(Js.wrap_callback (fun v i -> Js.string (f v i)))
-
-let text_cst v (s: D3.selection Js.t) =
-  s##text(Js.string v)
-
-let text_rm (s: D3.selection Js.t) =
-  s##text_remove(Js.null)
->>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
 
 module Interval =
@@ -270,11 +204,7 @@ end
 module Scale =
 struct
 
-<<<<<<< HEAD
   type ('a, 'b) t = ('a -> int -> 'b Js.opt) Js.callback
-=======
-  type ('a, 'b) t = ('a -> int -> 'b) Js.callback
->>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
   let linear ?(clamp = false) ~x0 ~x1 ~y0 ~y1 () =
     let f =
