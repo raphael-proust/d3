@@ -37,20 +37,29 @@ d3.core.js: \
 	src/core/descending.js \
 	src/core/min.js \
 	src/core/max.js \
+<<<<<<< HEAD
 	src/core/zip.js \
 	src/core/bisect.js \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	src/core/nest.js \
 	src/core/keys.js \
 	src/core/values.js \
 	src/core/entries.js \
+<<<<<<< HEAD
 	src/core/permute.js \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	src/core/merge.js \
 	src/core/split.js \
 	src/core/collapse.js \
 	src/core/call.js \
 	src/core/range.js \
 	src/core/requote.js \
+<<<<<<< HEAD
 	src/core/round.js \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	src/core/xhr.js \
 	src/core/text.js \
 	src/core/json.js \
@@ -62,7 +71,10 @@ d3.core.js: \
 	src/core/ease.js \
 	src/core/event.js \
 	src/core/interpolate.js \
+<<<<<<< HEAD
 	src/core/uninterpolate.js \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	src/core/rgb.js \
 	src/core/hsl.js \
 	src/core/selection.js \
@@ -72,8 +84,11 @@ d3.core.js: \
 d3.scale.js: \
 	src/scale/scale.js \
 	src/scale/linear.js \
+<<<<<<< HEAD
 	src/scale/bilinear.js \
 	src/scale/polylinear.js \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	src/scale/log.js \
 	src/scale/pow.js \
 	src/scale/sqrt.js \
@@ -90,7 +105,10 @@ d3.svg.js: \
 	src/svg/chord.js \
 	src/svg/diagonal.js \
 	src/svg/mouse.js \
+<<<<<<< HEAD
 	src/svg/touches.js \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	src/svg/symbol.js
 
 d3.behavior.js: \
@@ -104,8 +122,11 @@ d3.chart.js: \
 	src/chart/chart.js \
 	src/chart/box.js \
 	src/chart/bullet.js \
+<<<<<<< HEAD
 	src/chart/horizon.js \
 	src/chart/qq.js \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	src/end.js
 
 d3.layout.js: \
@@ -116,7 +137,10 @@ d3.layout.js: \
 	src/layout/partition.js \
 	src/layout/pie.js \
 	src/layout/stack.js \
+<<<<<<< HEAD
 	src/layout/histogram.js \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	src/layout/hierarchy.js \
 	src/layout/pack.js \
 	src/layout/cluster.js \
@@ -127,7 +151,10 @@ d3.layout.js: \
 d3.geo.js: \
 	src/start.js \
 	src/geo/geo.js \
+<<<<<<< HEAD
 	src/geo/azimuthal.js \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	src/geo/albers.js \
 	src/geo/mercator.js \
 	src/geo/path.js \
@@ -161,12 +188,16 @@ d3.geom.js: \
 tests: \
 	tests/test-append.test \
 	tests/test-attr.test \
+<<<<<<< HEAD
 	tests/test-classed.test \
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	tests/test-call.test \
 	tests/test-csv-parse.test \
 	tests/test-format.test \
 	tests/test-insert.test \
 	tests/test-interpolate.test \
+<<<<<<< HEAD
 	tests/test-keys.test \
 	tests/test-max.test \
 	tests/test-min.test \
@@ -177,16 +208,26 @@ tests: \
 	tests/test-rgb.test \
 	tests/test-round.test \
 	tests/test-hsl.test \
+=======
+	tests/test-nest.test \
+	tests/test-remove.test \
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	tests/test-time-format.test \
 	tests/test-time-parse.test \
 	tests/test-transition.test \
 	tests/test-scale-linear.test \
+<<<<<<< HEAD
 	tests/test-scale-polylinear.test \
 	tests/test-scale-log.test \
 	tests/test-scale-sqrt.test \
 	tests/test-scale-pow.test \
 	tests/test-scale-quantile.test \
 	tests/test-bisect.test \
+=======
+	tests/test-scale-log.test \
+	tests/test-scale-sqrt.test \
+	tests/test-scale-pow.test \
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 	tests/test-svg-arc.test \
 	tests/test-svg-area.test \
 	tests/test-svg-line.test \

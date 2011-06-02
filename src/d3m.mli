@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 (**This module provides a functional, type safe (when possible) interface to the
   d3 library. It is not complete (yet). *)
 
+<<<<<<< HEAD
 module Selector : sig
 
   type t
@@ -36,6 +37,8 @@ module Selector : sig
 
 end
 
+=======
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
 (**The type of a selection with bound data of type ['a].*)
 type 'a t
@@ -61,11 +64,19 @@ type ('a, 'value) setter =
   | Constant of 'value
   (**For each element in the selection, use associated data to
     evaluates the new value for the text content, attribute, whatever.*)
+<<<<<<< HEAD
   | Dynamic of ('a -> int -> 'value option)
 
 
 val select     : Selector.t -> Js.Unsafe.any Js.opt t
 val select_all : Selector.t -> Js.Unsafe.any Js.opt t
+=======
+  | Dynamic of ('a -> int -> 'value)
+
+
+val select     : string -> Js.Unsafe.any Js.opt t
+val select_all : string -> Js.Unsafe.any Js.opt t
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
 val selection_of_node  : Dom.node Js.t       -> Js.Unsafe.any Js.opt t
 val selection_of_nodes : Dom.node Js.t array -> Js.Unsafe.any Js.opt t
@@ -89,21 +100,33 @@ val set_attr : string -> ('a, 'value) setter -> 'a chain
 
 val attr_rm  : string -> 'a chain
 val attr_cst : string -> 'a -> 'b chain
+<<<<<<< HEAD
 val attr     : string -> ('a -> int -> 'b option) -> 'a chain
+=======
+val attr     : string -> ('a -> int -> 'b) -> 'a chain
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
 
 val set_style : string -> ('a, 'value) setter -> 'a chain
 
 val style_rm  : string -> 'a chain
 val style_cst : string -> 'a -> 'b chain
+<<<<<<< HEAD
 val style     : string -> ('a -> int -> 'b option) -> 'a chain
+=======
+val style     : string -> ('a -> int -> 'b) -> 'a chain
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
 
 val set_text : ('a, string) setter -> 'a chain
 
 val text_rm  : 'a chain
 val text_cst : string -> 'b chain
+<<<<<<< HEAD
 val text     : ('a -> int -> string option) -> 'a chain
+=======
+val text     : ('a -> int -> string) -> 'a chain
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
 
 module Interval :
@@ -130,7 +153,11 @@ module Scale :
 sig
 
   (**The type of scales. The most common usage is *)
+<<<<<<< HEAD
   type ('a, 'b) t = ('a -> int -> 'b Js.opt) Js.callback
+=======
+  type ('a, 'b) t = ('a -> int -> 'b) Js.callback
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
 
   val linear :
     ?clamp:bool

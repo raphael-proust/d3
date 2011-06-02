@@ -127,14 +127,28 @@ object
 
   (**[attr(a,v)] sets the value of HTML attribute [a] to [v] for every node in
     the selection. The type of [v] depends on the attributes [a] that is to be
+<<<<<<< HEAD
     changed. If using null, the attribute is removed. Type safety is here broken
     again.*)
   method attr :
     Js.js_string Js.t
+=======
+    changed. Type safety is here broken again.*)
+  method attr :
+    Js.js_string Js.t
+    -> 'a
+    -> selection Js.t Js.meth
+
+  (**To remove an attribute from all the nodes in the selection, give [Js.null]
+    as a second argument to this method.*)
+  method attr_remove :
+    Js.js_string Js.t
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
     -> 'a Js.opt
     -> selection Js.t Js.meth
 
   (**[attr_dyn(a, f)] sets the attributes [a] on node n to the result of the
+<<<<<<< HEAD
     evaluation of [f(d,i)] where [d] is the datum associated to n and [i] its
     index. If the function call returns null, the attribute is removed. The type
     safety remark of method [attr] applies too.*)
@@ -147,41 +161,96 @@ object
   (**Same as [attr] but with CSS style attribute*)
   method style :
     Js.js_string Js.t
+=======
+    evaluation of [f(d,i)] where d is the datum associated to n and [i] its
+    index. The type safety remark of method [attr] applies too.*)
+  method attr_dyn :
+    Js.js_string Js.t
+    -> ('data -> int -> 'a) Js.callback
+    -> selection Js.t Js.meth
+
+  (**Same as [attr] but with CSS style attribute*)
+  method style :
+    Js.js_string Js.t
+    -> 'a
+    -> selection Js.t Js.meth
+  method style_remove :
+    Js.js_string Js.t
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
     -> 'a Js.opt
     -> selection Js.t Js.meth
   method style_dyn :
     Js.js_string Js.t
+<<<<<<< HEAD
     -> ('data -> int -> 'a Js.opt) Js.callback
+=======
+    -> ('data -> int -> 'a) Js.callback
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
     -> selection Js.t Js.meth
   (*TODO: priority*)
 
   (**Same as [attr] and [style] but for JS property.*)
   method property :
     Js.js_string Js.t
+<<<<<<< HEAD
+=======
+    -> Js.js_string Js.t
+    -> selection Js.t Js.meth
+  method property_remove :
+    Js.js_string Js.t
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
     -> Js.js_string Js.t Js.opt
     -> selection Js.t Js.meth
   method property_dyn :
     Js.js_string Js.t
+<<<<<<< HEAD
     -> ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
+=======
+    -> ('a -> int -> Js.js_string Js.t) Js.callback
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
     -> selection Js.t Js.meth
 
   (**Set the text content of all the nodes in the selection.*)
   method text        :
+<<<<<<< HEAD
     Js.js_string Js.t Js.opt
+=======
+    Js.js_string Js.t
+    -> selection Js.t Js.meth
+
+  (**Remove all the text content of the selection by giving [Js.null] to this
+    method.*)
+  method text_remove :
+    'a Js.opt
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
     -> selection Js.t Js.meth
 
   (**Sets the text content of every node in the selection by evaluation the
     given function in a fashion similar to [attr_dyn]'s.*)
   method text_dyn    :
+<<<<<<< HEAD
     ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
+=======
+    ('a -> int -> Js.js_string Js.t) Js.callback
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
     -> selection Js.t Js.meth
 
     (**Same as [text] but for html*)
   method html        :
+<<<<<<< HEAD
     Js.js_string Js.t Js.opt
     -> selection Js.t Js.meth
   method html_dyn    :
     ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
+=======
+    Js.js_string Js.t
+    -> selection Js.t Js.meth
+  method html_remove :
+    'a Js.opt
+    -> selection Js.t Js.meth
+  method html_dyn    :
+    ('a -> int -> Js.js_string Js.t) Js.callback
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
     -> selection Js.t Js.meth
 
   (**Set an event handler on each node in the selection. The first argument is
@@ -329,7 +398,11 @@ module Scale =
 
     let to_fun :
       ('a, 'b) #t Js.t
+<<<<<<< HEAD
       -> ('a -> int -> 'b Js.opt) Js.callback
+=======
+      -> ('a -> int -> 'b) Js.callback
+>>>>>>> ed4bad9d535d872fcb82c9c667f3e783a45aa8bb
       = Obj.magic
 
   end
