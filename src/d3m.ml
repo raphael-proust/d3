@@ -52,10 +52,16 @@ let (>>) (s : D3.selection Js.t) c = c s
 let d3 = D3.d3
 
 
+(*TODO: move to appropriate location*)
+let opt_of_option = function
+  | Some x -> Js.some x
+  | None -> Js.null
+
+
 type ('data, 'value) setter =
   | Remove
   | Constant of 'value
-  | Dynamic of ('data -> int -> 'value)
+  | Dynamic of ('data -> int -> 'value option)
 
 
 let select selector     = d3##select(selector)
@@ -77,50 +83,75 @@ let enter (s : D3.selection Js.t) = s##enter()
 
 let set_attr name setter (s : D3.selection Js.t) =
   match setter with
-  | Remove     -> s##attr_remove(Js.string name, Js.null)
-  | Constant v -> s##attr(Js.string name, v)
-  | Dynamic f  -> s##attr_dyn(Js.string name, Js.wrap_callback f)
+  | Remove     -> s##attr(Js.string name, Js.null)
+  | Constant v -> s##attr(Js.string name, Js.some v)
+  | Dynamic f  ->
+    s##attr_dyn(
+      Js.string name,
+      Js.wrap_callback (fun d i -> opt_of_option (f d i))
+    )
 
 let attr name f (s: D3.selection Js.t) =
-  s##attr_dyn(Js.string name, Js.wrap_callback f)
+  s##attr_dyn(
+    Js.string name,
+    Js.wrap_callback (fun d i -> opt_of_option (f d i))
+  )
 
 let attr_cst name v (s: D3.selection Js.t) =
-  s##attr(Js.string name, v)
+  s##attr(Js.string name, Js.some v)
 
 let attr_rm name (s: D3.selection Js.t) =
-  s##attr_remove(Js.string name, Js.null)
+  s##attr(Js.string name, Js.null)
 
 
 let set_style name setter (s : D3.selection Js.t) =
   match setter with
-  | Remove     -> s##style_remove(Js.string name, Js.null)
-  | Constant v -> s##style(Js.string name, v)
-  | Dynamic f  -> s##style_dyn(Js.string name, Js.wrap_callback f)
+  | Remove     -> s##style(Js.string name, Js.null)
+  | Constant v -> s##style(Js.string name, Js.some v)
+  | Dynamic f  ->
+    s##style_dyn(
+      Js.string name,
+      Js.wrap_callback (fun d i -> opt_of_option (f d i))
+    )
 
 let style name f (s: D3.selection Js.t) =
-  s##style_dyn(Js.string name, Js.wrap_callback f)
+  s##style_dyn(
+    Js.string name,
+    Js.wrap_callback (fun d i -> opt_of_option (f d i))
+  )
 
 let style_cst name v (s: D3.selection Js.t) =
-  s##style(Js.string name, v)
+  s##style(Js.string name, Js.some v)
 
 let style_rm name (s: D3.selection Js.t) =
-  s##style_remove(Js.string name, Js.null)
+  s##style(Js.string name, Js.null)
 
 
 let set_text setter (s : D3.selection Js.t) =
   match setter with
-  | Remove     -> s##text_remove(Js.null)
-  | Constant v -> s##text(Js.string v)
-  | Dynamic f  -> s##text_dyn(Js.wrap_callback (fun d i -> Js.string (f d i)))
+  | Remove     -> s##text(Js.null)
+  | Constant v -> s##text(Js.some (Js.string v))
+  | Dynamic f  ->
+    s##text_dyn(
+      Js.wrap_callback (fun d i -> match f d i with
+        | None -> Js.null
+        | Some s -> Js.some (Js.string s)
+      )
+    )
 
 let text f (s: D3.selection Js.t) =
-  s##text_dyn(Js.wrap_callback (fun v i -> Js.string (f v i)))
+  s##text_dyn(
+    Js.wrap_callback (fun d i -> match f d i with
+      | None -> Js.null
+      | Some s -> Js.some (Js.string s)
+    )
+  )
 
 let text_cst v (s: D3.selection Js.t) =
-  s##text(Js.string v)
+  s##text(Js.some (Js.string v))
 
 let text_rm (s: D3.selection Js.t) =
-  s##text_remove(Js.null)
+  s##text(Js.null)
 
 
 module Interval =
@@ -173,7 +204,7 @@ end
 module Scale =
 struct
 
-  type ('a, 'b) t = ('a -> int -> 'b) Js.callback
+  type ('a, 'b) t = ('a -> int -> 'b Js.opt) Js.callback
 
   let linear ?(clamp = false) ~x0 ~x1 ~y0 ~y1 () =
     let f =

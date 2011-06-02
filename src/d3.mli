@@ -127,82 +127,61 @@ object
 
   (**[attr(a,v)] sets the value of HTML attribute [a] to [v] for every node in
     the selection. The type of [v] depends on the attributes [a] that is to be
-    changed. Type safety is here broken again.*)
+    changed. If using null, the attribute is removed. Type safety is here broken
+    again.*)
   method attr :
-    Js.js_string Js.t
-    -> 'a
-    -> selection Js.t Js.meth
-
-  (**To remove an attribute from all the nodes in the selection, give [Js.null]
-    as a second argument to this method.*)
-  method attr_remove :
     Js.js_string Js.t
     -> 'a Js.opt
     -> selection Js.t Js.meth
 
   (**[attr_dyn(a, f)] sets the attributes [a] on node n to the result of the
-    evaluation of [f(d,i)] where d is the datum associated to n and [i] its
-    index. The type safety remark of method [attr] applies too.*)
+    evaluation of [f(d,i)] where [d] is the datum associated to n and [i] its
+    index. If the function call returns null, the attribute is removed. The type
+    safety remark of method [attr] applies too.*)
   method attr_dyn :
     Js.js_string Js.t
-    -> ('data -> int -> 'a) Js.callback
+    -> ('data -> int -> 'a Js.opt) Js.callback
     -> selection Js.t Js.meth
+
 
   (**Same as [attr] but with CSS style attribute*)
   method style :
-    Js.js_string Js.t
-    -> 'a
-    -> selection Js.t Js.meth
-  method style_remove :
     Js.js_string Js.t
     -> 'a Js.opt
     -> selection Js.t Js.meth
   method style_dyn :
     Js.js_string Js.t
-    -> ('data -> int -> 'a) Js.callback
+    -> ('data -> int -> 'a Js.opt) Js.callback
     -> selection Js.t Js.meth
   (*TODO: priority*)
 
   (**Same as [attr] and [style] but for JS property.*)
   method property :
     Js.js_string Js.t
-    -> Js.js_string Js.t
-    -> selection Js.t Js.meth
-  method property_remove :
-    Js.js_string Js.t
     -> Js.js_string Js.t Js.opt
     -> selection Js.t Js.meth
   method property_dyn :
     Js.js_string Js.t
-    -> ('a -> int -> Js.js_string Js.t) Js.callback
+    -> ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
     -> selection Js.t Js.meth
 
   (**Set the text content of all the nodes in the selection.*)
   method text        :
-    Js.js_string Js.t
-    -> selection Js.t Js.meth
-
-  (**Remove all the text content of the selection by giving [Js.null] to this
-    method.*)
-  method text_remove :
-    'a Js.opt
+    Js.js_string Js.t Js.opt
     -> selection Js.t Js.meth
 
   (**Sets the text content of every node in the selection by evaluation the
     given function in a fashion similar to [attr_dyn]'s.*)
   method text_dyn    :
-    ('a -> int -> Js.js_string Js.t) Js.callback
+    ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
     -> selection Js.t Js.meth
 
     (**Same as [text] but for html*)
   method html        :
-    Js.js_string Js.t
-    -> selection Js.t Js.meth
-  method html_remove :
-    'a Js.opt
+    Js.js_string Js.t Js.opt
     -> selection Js.t Js.meth
   method html_dyn    :
-    ('a -> int -> Js.js_string Js.t) Js.callback
+    ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
     -> selection Js.t Js.meth
 
   (**Set an event handler on each node in the selection. The first argument is
@@ -350,7 +329,7 @@ module Scale :
 
     val to_fun :
       ('a, 'b) #t Js.t
-      -> ('a -> int -> 'b) Js.callback
+      -> ('a -> int -> 'b Js.opt) Js.callback
 
 
   end

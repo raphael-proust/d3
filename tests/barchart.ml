@@ -13,7 +13,7 @@ let chart =
     >> attr_cst "class" (Js.string "chart")
 
 let width_of_value v _ =
-  string_of_int (10 * v) ^ "px"
+  Some (string_of_int (10 * v) ^ "px")
 
 let _ =
   chart
@@ -21,6 +21,6 @@ let _ =
     >> data mydata
     >> enter >> append "div"
     >> style "width" width_of_value
-    >> text (fun v _ -> string_of_int v)
+    >> text (fun v _ -> Some (string_of_int v))
 
 

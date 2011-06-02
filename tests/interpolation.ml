@@ -18,8 +18,8 @@ let _ =
     >> subnodes "div"
     >> data (make 7)
     >> enter >> append "div"
-    >> style "width" (fun v _ -> widths v)
-    >> style_cst "height" (Js.string "10px")
-    >> style "background-color" (fun v _ -> rainbow v)
+    >> style "width" (fun v _ -> Some (widths v))
+    >> style_cst "height" (Js.some (Js.string "10px"))
+    >> style "background-color" (fun v _ -> Some (rainbow v))
 
 

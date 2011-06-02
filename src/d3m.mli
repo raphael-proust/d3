@@ -61,7 +61,7 @@ type ('a, 'value) setter =
   | Constant of 'value
   (**For each element in the selection, use associated data to
     evaluates the new value for the text content, attribute, whatever.*)
-  | Dynamic of ('a -> int -> 'value)
+  | Dynamic of ('a -> int -> 'value option)
 
 
 val select     : Selector.t -> Js.Unsafe.any Js.opt t
@@ -89,21 +89,21 @@ val set_attr : string -> ('a, 'value) setter -> 'a chain
 
 val attr_rm  : string -> 'a chain
 val attr_cst : string -> 'a -> 'b chain
-val attr     : string -> ('a -> int -> 'b) -> 'a chain
+val attr     : string -> ('a -> int -> 'b option) -> 'a chain
 
 
 val set_style : string -> ('a, 'value) setter -> 'a chain
 
 val style_rm  : string -> 'a chain
 val style_cst : string -> 'a -> 'b chain
-val style     : string -> ('a -> int -> 'b) -> 'a chain
+val style     : string -> ('a -> int -> 'b option) -> 'a chain
 
 
 val set_text : ('a, string) setter -> 'a chain
 
 val text_rm  : 'a chain
 val text_cst : string -> 'b chain
-val text     : ('a -> int -> string) -> 'a chain
+val text     : ('a -> int -> string option) -> 'a chain
 
 
 module Interval :
@@ -130,7 +130,7 @@ module Scale :
 sig
 
   (**The type of scales. The most common usage is *)
-  type ('a, 'b) t = ('a -> int -> 'b) Js.callback
+  type ('a, 'b) t = ('a -> int -> 'b Js.opt) Js.callback
 
   val linear :
     ?clamp:bool

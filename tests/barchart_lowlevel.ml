@@ -12,7 +12,7 @@ let chart =
   D3.d3
     ##select(Js.string "body")
     ##append(Js.string "div")
-    ##attr(Js.string "class", Js.string "chart")
+    ##attr(Js.string "class", Js.some (Js.string "chart"))
 
 let x =
   D3.d3
@@ -27,5 +27,5 @@ let _ =
     ##data(Js.array data)
     ##enter()##append(Js.string "div")
     ##style_dyn(Js.string "width", D3.Scale.to_fun x)
-    ##text_dyn(Js.wrap_callback (fun v _ -> Js.string (string_of_int v)))
+    ##text_dyn(Js.wrap_callback (fun v _ -> Js.some (Js.string (string_of_int v))))
 
