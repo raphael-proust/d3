@@ -185,20 +185,51 @@ object
     'data Js.js_array Js.t
     -> selection Js.t Js.meth
 
-
-
-  (*CHAIN*)
-
-  (**The next set of method allow for method chaining*)
-
-  (**TODO: undocummented in the d3 library. According to comments found in the
-    examples, the enter method populates the selection with placeholder nodes,
-    one for each data associated to the selection. For example (ommiting the JS
-    conversion function for clarity), one may use
-    [s##selectAll("div")##data([|1; 2|])##enter()] to obtain a selection of two
-    div nodes.
-  *)
+  (**TODO: document*)
   method enter : selection Js.t Js.meth
+
+  method exit : selection Js.t Js.meth
+
+  (**TODO: explain semantic*)
+  method filter :
+    ('a -> int -> bool Js.t) Js.callback
+    -> selection Js.t Js.meth
+
+  (**maps over the data in the selection*)
+  method map :
+    ('a -> int -> 'b) Js.callback
+    -> selection Js.t Js.meth
+
+  (**sort the selection according to data it is bound to.*)
+  method sort :
+    ('a -> 'a -> int) Js.callback
+    -> selection Js.t Js.meth
+
+
+
+  (*ANIMATION AND SUBSELECTION*)
+
+
+  (**Set an event handler on each node in the selection. The first argument is
+    the event type, the second is the event handler.*)
+  method on :
+    Js.js_string Js.t
+    -> (Dom_html.eventTarget, 'a) Dom_html.event_listener Js.t Js.opt
+    -> selection Js.t Js.meth
+
+  (*TODO: transition*)
+
+
+
+  (*CONTROL*)
+
+  (**Make a function call on each associated datum of the selection. The given
+    function is called with a datum and its index.*) (*TODO: find a way not to
+    require the int argument.*)
+  method each :
+    ('data Js.t -> int -> unit) Js.callback
+    -> selection Js.t Js.meth
+
 
   (**Make a function call on the selection content.*)
   method call :
@@ -224,38 +255,6 @@ object
     -> 'c
     -> selection Js.meth
 
-  (**Make a function call on each associated datum of the selection. The given
-    function is called with a datum and its index.*) (*TODO: find a way not to
-    require the int argument.*)
-  method each :
-    ('data Js.t -> int -> unit) Js.callback
-    -> selection Js.t Js.meth
-
-
-
-  (**Set an event handler on each node in the selection. The first argument is
-    the event type, the second is the event handler.*)
-  method on :
-    Js.js_string Js.t
-    -> (Dom_html.eventTarget, 'a) Dom_html.event_listener Js.t
-    -> selection Js.t Js.meth
-
-  (**Unbind event handlers by passing [Js.null] as a second argument.*)
-  method on_remove :
-    Js.js_string Js.t
-    -> 'a Js.opt
-    -> selection Js.t Js.meth
-
-
-
-
-(* TODO:
-  method filter
-  method sort
-*)
-
-  (*OTHER*)
-
   (**[empty()] is true if the selection is empty.*)
   method empty :
     bool Js.t Js.meth
@@ -264,27 +263,6 @@ object
   method node :
     Dom.node Js.t Js.meth
 
-  (**Gets the attribute value for the first node in the selection.*)
-  method attr_get :
-    Js.js_string Js.t
-    -> 'a Js.meth
-
-  method style_get :
-    'a Js.meth
-
-  method property_get :
-    Js.js_string Js.t
-    -> 'a Js.meth
-
-  method text_get    :
-    Js.js_string Js.t Js.meth
-
-  method html_get    :
-    Js.js_string Js.t Js.meth
-
-  (*TODO idem
-  method transition
-  *)
 
 
 end
@@ -387,6 +365,8 @@ object
   inherit with_select
 
 (*TODO: max and other helper functions. *)
+
+(*TODO: event*)
 
 (*   method transition : transition Js.t Js.meth *)
 
