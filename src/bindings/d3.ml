@@ -63,6 +63,119 @@ object
   inherit with_select
 
 
+  (*CONTENT*)
+  (*Tamper with the content of the selection*)
+
+  (**[attr(a,v)] sets the value of HTML attribute [a] to [v] for every node in
+    the selection. The type of [v] depends on the attributes [a] that is to be
+    changed. If using null, the attribute is removed. Type safety is here broken
+    again.*)
+  method attr :
+    Js.js_string Js.t
+    -> 'a Js.opt
+    -> selection Js.t Js.meth
+
+  (**[attr_dyn(a, f)] sets the attributes [a] on node n to the result of the
+    evaluation of [f(d,i)] where [d] is the datum associated to n and [i] its
+    index. If the function call returns null, the attribute is removed. The type
+    safety remark of method [attr] applies too.*)
+  method attr_dyn :
+    Js.js_string Js.t
+    -> ('data -> int -> 'a Js.opt) Js.callback
+    -> selection Js.t Js.meth
+
+  (**[attr_read(a)] returns the value of the given attribute for the first
+    element of the selection.*)
+  method attr_read :
+    Js.js_string Js.t
+    -> 'a Js.meth
+
+
+  (**[classed(c,b)] either sets the class [c] on elemnents of the selection if
+    [b] is true or unsets it if [b] is false. [c] can contain several classes
+    separated by space.*)
+  method classed :
+    Js.js_string Js.t
+    -> bool Js.t Js.meth
+    -> selection Js.t Js.meth
+  method classed_dyn :
+    Js.js_string Js.t
+    -> ('a -> int -> bool Js.t) Js.callback
+    -> selection Js.t Js.meth
+  method classed_read :
+    Js.js_string Js.t
+    -> bool Js.t Js.meth
+
+
+  (**Same as [attr] but with CSS style attribute*)
+  method style :
+    Js.js_string Js.t
+    -> 'a Js.opt
+    -> selection Js.t Js.meth
+  method style_dyn :
+    Js.js_string Js.t
+    -> ('data -> int -> 'a Js.opt) Js.callback
+    -> selection Js.t Js.meth
+  method style_read :
+    Js.js_string Js.t
+    -> 'a Js.meth
+  (*TODO: priority*)
+
+  (**Same as [attr] and [style] but for JS property.*)
+  method property :
+    Js.js_string Js.t
+    -> Js.js_string Js.t Js.opt
+    -> selection Js.t Js.meth
+  method property_dyn :
+    Js.js_string Js.t
+    -> ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
+    -> selection Js.t Js.meth
+  method property_read :
+    Js.js_string Js.t
+    -> 'a Js.meth
+
+  (**Set the text content of all the nodes in the selection.*)
+  method text        :
+    Js.js_string Js.t Js.opt
+    -> selection Js.t Js.meth
+
+  (**Sets the text content of every node in the selection by evaluation the
+    given function in a fashion similar to [attr_dyn]'s.*)
+  method text_dyn    :
+    ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
+    -> selection Js.t Js.meth
+
+  method text_read :
+    Js.js_string Js.t Js.opt Js.meth
+
+    (**Same as [text] but for html*)
+  method html        :
+    Js.js_string Js.t Js.opt
+    -> selection Js.t Js.meth
+  method html_dyn    :
+    ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
+    -> selection Js.t Js.meth
+  method html_read :
+    Js.js_string Js.t Js.opt Js.meth
+
+  (**Add a subnode to each node of the selection. The new nodes are created
+    according to the tag given as argument. The selection then contains the
+    appended nodes.*)
+  method append :
+    Js.js_string Js.t
+    -> selection Js.t Js.meth
+
+  method insert :
+    Js.js_string Js.t
+    -> Js.js_string Js.t
+    -> selection Js.t Js.meth
+
+  (**remove elements of the selection from the HTML document.*)
+  method remove : unit Js.meth
+
+
+
+
 
   (*DATA*)
 
@@ -86,13 +199,6 @@ object
     div nodes.
   *)
   method enter : selection Js.t Js.meth
-
-  (**Add a subnode to each node of the selection. The new nodes are created
-    according to the tag given as argument. The selection then contains the
-    appended nodes.*)
-  method append :
-    Js.js_string Js.t
-    -> selection Js.t Js.meth
 
   (**Make a function call on the selection content.*)
   method call :
@@ -125,88 +231,27 @@ object
     ('data Js.t -> int -> unit) Js.callback
     -> selection Js.t Js.meth
 
-  (**[attr(a,v)] sets the value of HTML attribute [a] to [v] for every node in
-    the selection. The type of [v] depends on the attributes [a] that is to be
-    changed. If using null, the attribute is removed. Type safety is here broken
-    again.*)
-  method attr :
-    Js.js_string Js.t
-    -> 'a Js.opt
-    -> selection Js.t Js.meth
 
-  (**[attr_dyn(a, f)] sets the attributes [a] on node n to the result of the
-    evaluation of [f(d,i)] where [d] is the datum associated to n and [i] its
-    index. If the function call returns null, the attribute is removed. The type
-    safety remark of method [attr] applies too.*)
-  method attr_dyn :
-    Js.js_string Js.t
-    -> ('data -> int -> 'a Js.opt) Js.callback
-    -> selection Js.t Js.meth
-
-
-  (**Same as [attr] but with CSS style attribute*)
-  method style :
-    Js.js_string Js.t
-    -> 'a Js.opt
-    -> selection Js.t Js.meth
-  method style_dyn :
-    Js.js_string Js.t
-    -> ('data -> int -> 'a Js.opt) Js.callback
-    -> selection Js.t Js.meth
-  (*TODO: priority*)
-
-  (**Same as [attr] and [style] but for JS property.*)
-  method property :
-    Js.js_string Js.t
-    -> Js.js_string Js.t Js.opt
-    -> selection Js.t Js.meth
-  method property_dyn :
-    Js.js_string Js.t
-    -> ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
-    -> selection Js.t Js.meth
-
-  (**Set the text content of all the nodes in the selection.*)
-  method text        :
-    Js.js_string Js.t Js.opt
-    -> selection Js.t Js.meth
-
-  (**Sets the text content of every node in the selection by evaluation the
-    given function in a fashion similar to [attr_dyn]'s.*)
-  method text_dyn    :
-    ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
-    -> selection Js.t Js.meth
-
-    (**Same as [text] but for html*)
-  method html        :
-    Js.js_string Js.t Js.opt
-    -> selection Js.t Js.meth
-  method html_dyn    :
-    ('a -> int -> Js.js_string Js.t Js.opt) Js.callback
-    -> selection Js.t Js.meth
 
   (**Set an event handler on each node in the selection. The first argument is
-   * the event type, the second is the event handler.*)
+    the event type, the second is the event handler.*)
   method on :
     Js.js_string Js.t
     -> (Dom_html.eventTarget, 'a) Dom_html.event_listener Js.t
-    -> selection Js.t
+    -> selection Js.t Js.meth
 
   (**Unbind event handlers by passing [Js.null] as a second argument.*)
   method on_remove :
     Js.js_string Js.t
     -> 'a Js.opt
-    -> selection Js.t
+    -> selection Js.t Js.meth
 
 
 
-  (*UNDOCUMMENTED*)
 
-(* TODO: find doc (read source?) and complete
+(* TODO:
   method filter
-  method classed
-  method insert
   method sort
-  method remove
 *)
 
   (*OTHER*)
