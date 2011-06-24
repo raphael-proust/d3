@@ -1,31 +1,9 @@
 include ../Makefile.common
 
-
-####
-
-
-MLS=d3.ml d3m.ml
-MLIS=$(MLS:ml=mli)
-CMIS=$(MLS:ml=cmi)
-CMOS=$(MLS:ml=cmo)
-
-
-
-####
-
-
-all: $(CMOS)
-
-$(CMOS): $(CMIS)
-
-%.cmo: %.ml
-	$(OCAMLC) -g -c $<
-
-%.cmi: %.mli
-	$(OCAMLC) -g -c $<
-
-
+all:
+	make -C bindings
+	make -C lib
 
 clean:
-	rm -f *.cm[ioa] *.so *.a a.out $(CMOS) $(CMIS)
-
+	make -C bindings clean
+	make -C lib clean
