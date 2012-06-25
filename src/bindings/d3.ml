@@ -389,13 +389,13 @@ object
     -> (float -> int) Js.meth
 
   method interpolateRgb :
-    CSS.js_color
-    -> CSS.js_color
-    -> (float -> CSS.js_color) Js.meth
+    CSS.Color.js_t
+    -> CSS.Color.js_t
+    -> (float -> CSS.Color.js_t) Js.meth
   method interpolateHsl :
-    CSS.js_color
-    -> CSS.js_color
-    -> (float -> CSS.js_color) Js.meth
+    CSS.Color.js_t
+    -> CSS.Color.js_t
+    -> (float -> CSS.Color.js_t) Js.meth
 
   method interpolateString :
     Js.js_string Js.t

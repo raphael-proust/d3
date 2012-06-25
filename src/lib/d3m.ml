@@ -166,15 +166,15 @@ struct
   let float     x y = d3##interpolateNumber_float(x, y)
 
   let color     x y =
-    let open CSS in
+    let open CSS.Color in
     match (x, y) with
 
     (*HSL*)
     | (HSL _, HSL _)   ->
-        (d3##interpolateHsl(color x, color y) :> float -> Js.js_string Js.t)
+        (d3##interpolateHsl(js x, js y) :> float -> Js.js_string Js.t)
     | (HSLA _, HSLA _) ->
-        let x = (color x :> Js.js_string Js.t)
-        and y = (color y :> Js.js_string Js.t)
+        let x = (js x :> Js.js_string Js.t)
+        and y = (js y :> Js.js_string Js.t)
         in
         d3##interpolateString(x, y)
 
@@ -184,10 +184,10 @@ struct
 
     (*RGB*)
     | (RGB _, RGB _)   ->
-        (d3##interpolateRgb(color x, color y) :> float -> Js.js_string Js.t)
+        (d3##interpolateRgb(js x, js y) :> float -> Js.js_string Js.t)
     | (RGBA _, RGBA _) ->
-        let x = (color x :> Js.js_string Js.t)
-        and y = (color y :> Js.js_string Js.t)
+        let x = (js x :> Js.js_string Js.t)
+        and y = (js y :> Js.js_string Js.t)
         in
         d3##interpolateString(x, y)
 
@@ -197,7 +197,7 @@ struct
 
     (*All that is left is RGB and named colors (that can be mixed).*)
     | _ ->
-        (d3##interpolateRgb(color x, color y) :> float -> Js.js_string Js.t)
+        (d3##interpolateRgb(js x, js y) :> float -> Js.js_string Js.t)
 
 end
 

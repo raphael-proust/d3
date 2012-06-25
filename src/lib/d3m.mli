@@ -122,7 +122,7 @@ sig
      value.. It does not work either when one of the two colors has an alpha
      channel. *)
   (*TODO: make return type CSS.js_color*)
-  val color     : CSS.color         -> CSS.color         -> Js.js_string Js.t t
+  val color     : CSS.Color.t       -> CSS.Color.t       -> Js.js_string Js.t t
 
 end
 

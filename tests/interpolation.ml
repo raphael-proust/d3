@@ -4,7 +4,7 @@
 open D3m
 
 let rainbow =
-  Interval.color (CSS.HSL (0, 80, 50)) (CSS.HSL (359, 80, 50))
+  Interval.color (CSS.Color.HSL (0, 80, 50)) (CSS.Color.HSL (359, 80, 50))
 
 let widths = Interval.string "50px" "120px"
 
